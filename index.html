@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fool Pathway</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>🌀 Fool Pathway</h1>
+
+    <div class="card">
+      <p id="level">Level: Seer</p>
+      <p id="exp">EXP: 0/400</p>
+      <p id="streak">Streak: 0</p>
+    </div>
+
+    <div class="card">
+      <button onclick="addExp(10)">Predict (+10)</button>
+      <button onclick="addExp(15)">Stay Calm (+15)</button>
+      <button onclick="addExp(20)">Influence (+20)</button>
+      <button onclick="addExp(30)">Creative Solve (+30)</button>
+    </div>
+
+    <div class="card">
+      <button onclick="completeDay()">Complete Day</button>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
