@@ -3,32 +3,148 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fool Pathway</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0f0f0f;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* 🌀 BIG BACKGROUND SYMBOL */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+
+      width: 90vw;
+      height: 90vh;
+
+      background: url("./fool-symbol.png.jpeg") no-repeat center;
+      background-size: contain;
+
+      opacity: 0.2;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(28, 28, 28, 0.9);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+
+    button {
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #333;
+      color: white;
+      font-size: 14px;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+  </style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>🌀 Fool Pathway</h1>
+<div class="container">
+  <h1>🌀 Fool Pathway</h1>
 
-    <div class="card">
-      <p id="level">Level: Seer</p>
-      <p id="exp">EXP: 0/400</p>
-      <p id="streak">Streak: 0</p>
-    </div>
-
-    <div class="card">
-      <button onclick="addExp(10)">Predict (+10)</button>
-      <button onclick="addExp(15)">Stay Calm (+15)</button>
-      <button onclick="addExp(20)">Influence (+20)</button>
-      <button onclick="addExp(30)">Creative Solve (+30)</button>
-    </div>
-
-    <div class="card">
-      <button onclick="completeDay()">Complete Day</button>
-    </div>
-
+  <div class="card">
+    <p id="level"></p>
+    <p id="exp"></p>
+    <p id="streak"></p>
+    <p id="sanity"></p>
   </div>
 
-  <script src="script.js"></script>
+  <div class="card">
+    <button onclick="addExp(10)">Predict (+10 EXP)</button>
+    <button onclick="addExp(15)">Stay Calm (+15 EXP)</button>
+    <button onclick="addExp(20)">Influence (+20 EXP)</button>
+    <button onclick="addExp(30)">Creative Solve (+30 EXP)</button>
+  </div>
+
+  <div class="card">
+    <button onclick="completeDay()">Complete Day (+30 EXP)</button>
+    <button onclick="reduceSanity()">Stress (-10 Sanity)</button>
+    <button onclick="recoverSanity()">Recover (+10 Sanity)</button>
+  </div>
+</div>
+
+<script>
+let exp = parseInt(localStorage.getItem("exp")) || 0;
+let level = parseInt(localStorage.getItem("level")) || 0;
+let streak = parseInt(localStorage.getItem("streak")) || 0;
+let sanity = parseInt(localStorage.getItem("sanity")) || 100;
+
+const levels = [
+  "Seer","Clown","Magician","Faceless","Marionettist",
+  "Bizarro Sorcerer","Scholar of Yore","Miracle Invoker",
+  "Attendant of Mysteries","Fool"
+];
+
+function update() {
+  document.getElementById("level").innerText = "Level: " + levels[level];
+  document.getElementById("exp").innerText = "EXP: " + exp + "/400";
+  document.getElementById("streak").innerText = "Streak: " + streak;
+  document.getElementById("sanity").innerText = "Sanity: " + sanity + "%";
+
+  localStorage.setItem("exp", exp);
+  localStorage.setItem("level", level);
+  localStorage.setItem("streak", streak);
+  localStorage.setItem("sanity", sanity);
+}
+
+function addExp(value) {
+  exp += value;
+
+  if (exp >= 400) {
+    exp = 0;
+    level++;
+    alert("LEVEL UP → " + levels[level]);
+  }
+
+  update();
+}
+
+function completeDay() {
+  streak++;
+  addExp(30);
+}
+
+function reduceSanity() {
+  sanity = Math.max(0, sanity - 10);
+  update();
+}
+
+function recoverSanity() {
+  sanity = Math.min(100, sanity + 10);
+  update();
+}
+
+update();
+</script>
+
 </body>
 </html>
